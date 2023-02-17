@@ -50,7 +50,7 @@ def handle_text_message(event):
     text_length_str = str(text_length)
     page = "1 page"
     if text_length > 400:
-        page = str((text_length // 400) + 1) + "pages"
+        page = str((text_length // 400) + 1) + " pages"
     if isinstance(event.source, SourceUser):
         profile = line_bot_api.get_profile(event.source.user_id)
         line_bot_api.reply_message(
