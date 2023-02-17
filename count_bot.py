@@ -46,20 +46,29 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     text = event.message.text
+    text_length = len(text)
+    text_length_str = str(text_length)
+    page = "1 page"
+    if text_length > 400:
+        page = str((text_length // 400) + 1) + "pages"
     if isinstance(event.source, SourceUser):
         profile = line_bot_api.get_profile(event.source.user_id)
         line_bot_api.reply_message(
             event.reply_token,
             [
                 TextSendMessage(text="From: " + profile.display_name),
-                TextSendMessage(text="Received message: " + text)
+                TextSendMessage(text="Received message: " + text),
+                TextSendMessage(text="Text length: " + text_length_str),
+                TextSendMessage(text="400-character paper: " + page)
             ],
         )
     else:
         line_bot_api.reply_message(
             event.reply_token,
             [
-                TextSendMessage(text="Received message: " + text)
+                TextSendMessage(text="Received message: " + text),
+                TextSendMessage(text="Text length: " + text_length_str),
+                TextSendMessage(text="400-character manuscript paper: " + page)
             ]
         )
 
